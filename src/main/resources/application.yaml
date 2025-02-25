@@ -15,3 +15,7 @@ spring:
     baseline-on-migrate: true
     enabled: true
     #placeholderReplacement: false
+
+app:
+  swagger-urls:
+    - "http://localhost:8082"
