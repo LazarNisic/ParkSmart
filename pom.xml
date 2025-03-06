@@ -33,6 +33,7 @@
 		<mapstruct.version>1.6.0.Beta1</mapstruct.version>
 		<jackson.version>2.14.2</jackson.version>
 		<jjwt.version>0.11.5</jjwt.version>
+		<flyway.version>10.20.1</flyway.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -160,6 +161,21 @@
 							<version>${mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>${flyway.version}</version>
+				<configuration>
+					<url>jdbc:postgresql://localhost:5432/parking_database</url>
+					<user>parkuser</user>
+					<password>parking24h</password>
+					<!--Delete cleanDisable-->
+					<cleanDisabled>false</cleanDisabled>
+					<schemas>
+						<schema>public</schema>
+					</schemas>
 				</configuration>
 			</plugin>
 			<plugin>
