@@ -1,2 +1,7 @@
-package com.lazarnisic.ParkSmart.repository;public interface UserRoleRepository {
+package com.lazarnisic.ParkSmart.repository;
+
+import com.lazarnisic.ParkSmart.model.UserRole;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 }

@@ -1,11 +1,14 @@
 package com.lazarnisic.ParkSmart.controller;
 
+import com.lazarnisic.ParkSmart.dto.UserDTO;
 import com.lazarnisic.ParkSmart.service.AuthService;
 import com.lazarnisic.ParkSmart.service.data.AuthenticateRequest;
 import com.lazarnisic.ParkSmart.service.data.AuthenticateResponse;
+import com.lazarnisic.ParkSmart.service.data.UserData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -65,5 +68,11 @@ public class AuthController {
             throw authenticateResponse.getException();
         }
         return new ResponseEntity<>(authenticateResponse, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/register")
+    @Operation(summary = "Register", description = "Method for user registration")
+    public ResponseEntity<UserDTO> register(@Valid @RequestBody UserData userData){
+        return new ResponseEntity<>(authService.register(userData), HttpStatus.CREATED);
     }
 }
