@@ -1,0 +1,3 @@
+ALTER TABLE "reservation"
+ADD CONSTRAINT chk_status
+CHECK (status IN ('PENDING', 'COMPLETED', 'CANCELLED'));

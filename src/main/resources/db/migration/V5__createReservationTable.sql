@@ -1,0 +1,11 @@
+CREATE TABLE "reservation" (
+    id INTEGER PRIMARY KEY,
+    parking_spot_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    start_time TIMESTAMP NOT NULL,
+    end_time TIMESTAMP NOT NULL,
+    total_price DOUBLE PRECISION NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    CONSTRAINT PARKING_SPOT_FK FOREIGN KEY (parking_spot_id) REFERENCES "parking_spot" (ID) ON DELETE CASCADE,
+    CONSTRAINT USER_FK FOREIGN KEY (user_id) REFERENCES "user" (ID) ON DELETE CASCADE
+);
