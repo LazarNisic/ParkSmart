@@ -1,2 +1,21 @@
-package com.lazarnisic.ParkSmart.dto;public class ParkingSpotDTO {
+package com.lazarnisic.ParkSmart.dto;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.lazarnisic.ParkSmart.enums.ListingType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+
+@Data
+@SuperBuilder
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+public class ParkingSpotDTO {
+    private Long id;
+    private String city;
+    private String address;
+    private boolean isAvailable;
+    private double pricePerHour;
+    @Enumerated(EnumType.STRING)
+    private ListingType listingType;
 }
