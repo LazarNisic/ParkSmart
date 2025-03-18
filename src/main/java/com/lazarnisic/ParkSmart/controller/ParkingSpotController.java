@@ -2,8 +2,11 @@ package com.lazarnisic.ParkSmart.controller;
 
 import com.lazarnisic.ParkSmart.dto.ParkingSpotDTO;
 import com.lazarnisic.ParkSmart.service.ParkingSpotService;
+import com.lazarnisic.ParkSmart.service.data.ParkingSpotData;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,10 +19,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/parking")
+@RequestMapping(value = "/parking-spot")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "01 Parking Spot", description = "List of Parking Spot methods")
+@Tag(name = "02 Parking Spot", description = "List of Parking Spot methods")
 @SecurityRequirement(name = "bearerAuth")
 public class ParkingSpotController {
 
@@ -31,5 +34,12 @@ public class ParkingSpotController {
                                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime startTime,
                                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)LocalDateTime endTime) {
         return new ResponseEntity<>(parkingSpotService.getAvailableParkingSpots(city, startTime, endTime), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Create new parking spot", description = "Method for creating new parking spot")
+    @PostMapping
+    public ResponseEntity<ParkingSpotDTO> create(@Valid @RequestBody ParkingSpotData parkingSpotData) {
+        return new ResponseEntity<>(parkingSpotService.createParkingSpot(parkingSpotData), HttpStatus.CREATED);
     }
 }
