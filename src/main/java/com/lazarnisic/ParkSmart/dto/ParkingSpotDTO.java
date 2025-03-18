@@ -14,7 +14,7 @@ public class ParkingSpotDTO {
     private Long id;
     private String city;
     private String address;
-    private boolean isAvailable;
+    private boolean available;
     private double pricePerHour;
     @Enumerated(EnumType.STRING)
     private ListingType listingType;

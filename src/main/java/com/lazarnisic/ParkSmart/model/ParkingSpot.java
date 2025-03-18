@@ -22,7 +22,7 @@ public class ParkingSpot implements Serializable {
     private String address;
 
     @Column(name = "is_available")
-    private boolean isAvailable;
+    private boolean available;
 
     @Column(name = "price_per_hour")
     private double pricePerHour;
