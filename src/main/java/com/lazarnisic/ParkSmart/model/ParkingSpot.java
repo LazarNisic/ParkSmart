@@ -9,7 +9,11 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "parking_spot", schema = "public")
+@Table(name = "parking_spot", schema = "public",
+        indexes = {
+                @Index(name = "idx_parking_spot_city", columnList = "city"),
+                @Index(name = "idx_parking_spot_city_available", columnList = "city, is_available")
+        })
 public class ParkingSpot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

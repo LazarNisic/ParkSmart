@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "reservation", schema = "public")
+@Table(name = "reservation", schema = "public",
+        indexes = {
+                @Index(name = "idx_reservation_time", columnList = "start_time, end_time")
+        })
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

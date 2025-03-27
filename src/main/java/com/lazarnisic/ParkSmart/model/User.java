@@ -8,7 +8,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "user", schema = "public",
+        indexes = {@Index(name = "idx_user_user_name", columnList = "user_name")})
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
