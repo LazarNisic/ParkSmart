@@ -34,6 +34,8 @@
 		<jackson.version>2.14.2</jackson.version>
 		<jjwt.version>0.11.5</jjwt.version>
 		<flyway.version>10.20.1</flyway.version>
+		<hazelcast.version>5.5.0</hazelcast.version>
+		<kafka.version>3.3.1</kafka.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -140,6 +142,16 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.hazelcast</groupId>-->
+<!--			<artifactId>hazelcast</artifactId>-->
+<!--			<version>${hazelcast.version}</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>${kafka.version}</version>
 		</dependency>
 	</dependencies>
 
