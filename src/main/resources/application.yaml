@@ -21,6 +21,7 @@ spring:
     enabled: true
     #placeholderReplacement: false
   kafka:
+    bootstrap-servers: localhost:9092
     producer:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -29,7 +30,6 @@ spring:
       group-id: group_id
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    bootstrap-servers: localhost:9092
 
 
 #management:
