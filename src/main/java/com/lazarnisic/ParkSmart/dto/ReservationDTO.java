@@ -16,4 +16,14 @@ public class ReservationDTO {
     private LocalDateTime endTime;
     private double totalPrice;
     private PaymentStatus paymentStatus;
+
+    @Override
+    public String toString() {
+        return "Reservation Details:\n" +
+                "Start Time: " + startTime + "\n" +
+                "End Time: " + endTime + "\n" +
+                "Total Price: " + totalPrice + "\n" +
+                "Payment Status: " + paymentStatus;
+    }
+
 }
