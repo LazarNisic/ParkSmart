@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @Data
 @SuperBuilder
@@ -19,11 +21,13 @@ public class ReservationDTO {
 
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd MMMM yyyy 'at' HH:mm");
         return "Reservation Details:\n" +
-                "Start Time: " + startTime + "\n" +
-                "End Time: " + endTime + "\n" +
-                "Total Price: " + totalPrice + "\n" +
+                "Start Time: " + startTime.format(formatter) + "\n" +
+                "End Time: " + endTime.format(formatter) + "\n" +
+                "Total Price(€): " + totalPrice + "\n" +
                 "Payment Status: " + paymentStatus;
     }
+
 
 }

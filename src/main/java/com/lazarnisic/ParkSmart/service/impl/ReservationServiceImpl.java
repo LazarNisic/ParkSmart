@@ -70,7 +70,8 @@ public class ReservationServiceImpl implements ReservationService {
         ReservationDTO createdReservation = reservationMapper.toDto(reservationRepository.save(reservation));
 
         String notificationMessage = createdReservation.toString();
-        notificationService.sendReservationNotification(notificationMessage);
+        notificationService.sendReservationNotification(notificationMessage + "\n" +
+                "Address: " + parkingSpot.getAddress() + "\n" + parkingSpot.getCity());
 
         return createdReservation;
     }
