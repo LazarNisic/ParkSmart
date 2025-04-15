@@ -36,6 +36,7 @@
 		<flyway.version>10.20.1</flyway.version>
 		<hazelcast.version>5.5.0</hazelcast.version>
 		<kafka.version>3.3.2</kafka.version>
+		<mail.version>3.4.4</mail.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -152,6 +153,11 @@
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
 			<version>${kafka.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>${mail.version}</version>
 		</dependency>
 	</dependencies>
 

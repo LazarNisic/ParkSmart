@@ -30,6 +30,17 @@ spring:
       group-id: group_id
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+    host: smtp.gmail.com
+    username: lazarenetel@gmail.com
+    password: fktw rdor tsya mesj
+    port: '587'
 
 
 #management:
