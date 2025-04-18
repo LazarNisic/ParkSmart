@@ -11,6 +11,7 @@ spring:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQL81Dialect
       ddl-auto: update
+    open-in-view: 'false'
   flyway:
     url: jdbc:postgresql://localhost:5432/parking_database
     user: parkuser
