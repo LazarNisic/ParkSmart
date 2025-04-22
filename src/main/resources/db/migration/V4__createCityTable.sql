@@ -1,0 +1,5 @@
+CREATE TABLE "city" (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    country VARCHAR(50) NOT NULL
+);
