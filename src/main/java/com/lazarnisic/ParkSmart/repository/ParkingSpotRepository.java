@@ -10,6 +10,6 @@ import java.util.List;
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Long> {
 
     @Query("SELECT ps FROM ParkingSpot ps " +
-            "WHERE ps.city = :city AND ps.available = true")
-    List<ParkingSpot> findAvailableByLocation(@Param("city") String city);
+            "WHERE ps.city.id = :cityId AND ps.available = true")
+    List<ParkingSpot> findAvailableByLocation(@Param("cityId") Long cityId);
 }

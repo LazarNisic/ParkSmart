@@ -11,16 +11,17 @@ import java.util.List;
 @Entity
 @Table(name = "parking_spot", schema = "public",
         indexes = {
-                @Index(name = "idx_parking_spot_city", columnList = "city"),
-                @Index(name = "idx_parking_spot_city_available", columnList = "city, is_available")
+                @Index(name = "idx_parking_spot_city", columnList = "city_id"),
+                @Index(name = "idx_parking_spot_city_available", columnList = "city_id, is_available")
         })
 public class ParkingSpot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "city")
-    private String city;
+    @ManyToOne(targetEntity = City.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Column(name = "address")
     private String address;

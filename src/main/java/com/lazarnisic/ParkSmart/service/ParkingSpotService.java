@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ParkingSpotService {
-    List<ParkingSpotDTO> getAvailableParkingSpots(String city, LocalDateTime startTime, LocalDateTime endTime);
+    List<ParkingSpotDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime);
 
     ParkingSpotDTO createParkingSpot(ParkingSpotData parkingSpotData);
 }

@@ -16,6 +16,8 @@ public class ParkingSpotData {
     private String city;
     @NotBlank(message = "Address cannot be null or empty.")
     private String address;
+    @NotBlank(message = "Country cannot be null or empty.")
+    private String country;
     @Positive(message = "Price per hour must be greater than zero.")
     private double pricePerHour;
     @NotNull(message = "Listing type cannot be null.")

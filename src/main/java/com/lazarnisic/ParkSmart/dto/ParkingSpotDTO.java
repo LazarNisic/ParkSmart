@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class ParkingSpotDTO {
     private Long id;
-    private String city;
+    private CityDTO city;
     private String address;
     private boolean available;
     private double pricePerHour;

@@ -31,7 +31,7 @@ public class Reservation {
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
-    @Column(name = "price_per_hour")
+    @Column(name = "total_price")
     private double totalPrice;
 
     @Enumerated(EnumType.STRING)
