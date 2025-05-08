@@ -9,5 +9,9 @@ import java.util.List;
 public interface ParkingSpotService {
     List<ParkingSpotDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime);
 
+    List<ParkingSpotDTO> getRentParkingSpotsForCity(String cityName);
+
+    List<ParkingSpotDTO> getSaleParkingSpotsForCity(String cityName);
+
     ParkingSpotDTO createParkingSpot(ParkingSpotData parkingSpotData);
 }

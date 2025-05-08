@@ -37,6 +37,18 @@ public class ParkingSpotController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @GetMapping(value = "/available-for-rent")
+    public ResponseEntity<List<ParkingSpotDTO>> getRentParkingSpotsForCity(@RequestParam String city) {
+        return new ResponseEntity<>(parkingSpotService.getRentParkingSpotsForCity(city), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @GetMapping(value = "/available-for-sale")
+    public ResponseEntity<List<ParkingSpotDTO>> getSaleParkingSpotsForCity(@RequestParam String city) {
+        return new ResponseEntity<>(parkingSpotService.getSaleParkingSpotsForCity(city), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @Operation(summary = "Create new parking spot", description = "Method for creating new parking spot")
     @PostMapping
     public ResponseEntity<ParkingSpotDTO> create(@Valid @RequestBody ParkingSpotData parkingSpotData) {
