@@ -46,4 +46,8 @@ public class ParkingSpot implements Serializable {
 
     @OneToMany(mappedBy = "parkingSpot", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
+
+    @OneToMany(mappedBy = "parkingSpot", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ParkingSpotImage> images;
+
 }
