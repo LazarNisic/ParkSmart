@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -46,6 +47,7 @@ public class CityServiceImpl implements CityService {
         City city = new City();
         city.setName(cityData.getName());
         city.setCountry(cityData.getCountry());
+        city.setTimestamp(LocalDateTime.now());
         return cityMapper.toDto(cityRepository.save(city));
     }
 }

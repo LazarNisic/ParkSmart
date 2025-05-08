@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,4 +19,7 @@ public class City implements Serializable {
 
     @Column(name = "country")
     private String country;
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 }

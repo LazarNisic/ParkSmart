@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -66,6 +67,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setEndTime(reservationData.getEndTime());
         reservation.setTotalPrice(totalPrice);
         reservation.setPaymentStatus(PaymentStatus.PENDING);
+        reservation.setTimestamp(LocalDateTime.now());
 
         ReservationDTO createdReservation = reservationMapper.toDto(reservationRepository.save(reservation));
 

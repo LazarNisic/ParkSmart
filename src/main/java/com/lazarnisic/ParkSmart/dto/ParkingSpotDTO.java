@@ -7,6 +7,8 @@ import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 @Data
 @SuperBuilder
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
@@ -18,4 +20,5 @@ public class ParkingSpotDTO {
     private double pricePerHour;
     @Enumerated(EnumType.STRING)
     private ListingType listingType;
+    private LocalDateTime timestamp;
 }

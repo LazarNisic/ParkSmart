@@ -37,4 +37,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private PaymentStatus paymentStatus;
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 }

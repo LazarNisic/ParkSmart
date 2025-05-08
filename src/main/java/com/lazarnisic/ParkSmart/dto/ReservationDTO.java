@@ -18,6 +18,7 @@ public class ReservationDTO {
     private LocalDateTime endTime;
     private double totalPrice;
     private PaymentStatus paymentStatus;
+    private LocalDateTime timestamp;
 
     @Override
     public String toString() {

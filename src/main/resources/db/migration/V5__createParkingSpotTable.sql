@@ -6,6 +6,7 @@ CREATE TABLE "parking_spot" (
     price_per_hour DOUBLE PRECISION NOT NULL,
     listing_type VARCHAR(50) NOT NULL,
     owner_id INTEGER NOT NULL,
+    "timestamp" TIMESTAMP NOT NULL,
     CONSTRAINT OWNER_FK FOREIGN KEY (owner_id) REFERENCES "user" (ID) ON DELETE CASCADE,
     CONSTRAINT CITY_FK FOREIGN KEY (city_id) REFERENCES "city" (ID) ON DELETE CASCADE
 );

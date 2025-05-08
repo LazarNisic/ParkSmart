@@ -60,12 +60,14 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
         City city = new City();
         city.setName(parkingSpotData.getCity());
         city.setCountry(parkingSpotData.getCountry());
+        city.setTimestamp(LocalDateTime.now());
         City savedCity = cityRepository.save(city);
         parkingSpot.setCity(savedCity);
         parkingSpot.setAddress(parkingSpotData.getAddress());
         parkingSpot.setAvailable(true);
         parkingSpot.setPricePerHour(parkingSpotData.getPricePerHour());
         parkingSpot.setListingType(parkingSpotData.getListingType());
+        parkingSpot.setTimestamp(LocalDateTime.now());
         return parkingSpotMapper.toDto(parkingSpotRepository.save(parkingSpot));
     }
 

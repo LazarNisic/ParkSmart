@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -35,6 +36,9 @@ public class ParkingSpot implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "listing_type")
     private ListingType listingType;
+
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
