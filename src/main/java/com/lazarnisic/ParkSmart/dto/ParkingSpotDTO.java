@@ -21,4 +21,5 @@ public class ParkingSpotDTO {
     @Enumerated(EnumType.STRING)
     private ListingType listingType;
     private LocalDateTime timestamp;
+    private ParkingAccessDTO parkingAccess;
 }

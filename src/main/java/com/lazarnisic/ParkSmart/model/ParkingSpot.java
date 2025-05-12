@@ -40,6 +40,10 @@ public class ParkingSpot implements Serializable {
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "access_id", referencedColumnName = "id")
+    private ParkingAccess parkingAccess;
+
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private User owner;
