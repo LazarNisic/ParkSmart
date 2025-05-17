@@ -3,6 +3,7 @@ package com.lazarnisic.ParkSmart.controller;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
 import com.lazarnisic.ParkSmart.service.ParkingSpotService;
+import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -63,6 +64,13 @@ public class ParkingSpotController {
     @PostMapping("/{id}/upload-image")
     public ParkingSpotImageDTO uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) throws IOException {
         return parkingSpotService.saveImage(id, file);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Create parking access", description = "Method for creating parking access features for parking spot")
+    @PostMapping(value = "/{id}/create-parking-access")
+    public ResponseEntity<ParkingSpotDTO> createParkingAccess(@PathVariable Long id, @Valid @RequestBody ParkingAccessData parkingAccessData) {
+        return new ResponseEntity<>(parkingSpotService.createParkingAccess(id, parkingAccessData), HttpStatus.CREATED);
     }
 
 }

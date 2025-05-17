@@ -2,6 +2,7 @@ package com.lazarnisic.ParkSmart.service;
 
 import com.lazarnisic.ParkSmart.dto.ParkingSpotDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
+import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotData;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,5 +19,7 @@ public interface ParkingSpotService {
 
     ParkingSpotDTO createParkingSpot(ParkingSpotData parkingSpotData);
 
-    public ParkingSpotImageDTO saveImage (Long parkingSpotId, MultipartFile file) throws IOException;
+    ParkingSpotImageDTO saveImage (Long parkingSpotId, MultipartFile file) throws IOException;
+
+    ParkingSpotDTO createParkingAccess(Long parkingSpotId, ParkingAccessData parkingAccessData);
 }

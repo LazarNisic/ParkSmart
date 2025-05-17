@@ -8,17 +8,12 @@ import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotImageMapper;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotMapper;
 import com.lazarnisic.ParkSmart.mapper.UserMapper;
-import com.lazarnisic.ParkSmart.model.City;
-import com.lazarnisic.ParkSmart.model.ParkingSpot;
-import com.lazarnisic.ParkSmart.model.ParkingSpotImage;
-import com.lazarnisic.ParkSmart.model.Reservation;
-import com.lazarnisic.ParkSmart.repository.CityRepository;
-import com.lazarnisic.ParkSmart.repository.ParkingSpotImageRepository;
-import com.lazarnisic.ParkSmart.repository.ParkingSpotRepository;
-import com.lazarnisic.ParkSmart.repository.ReservationRepository;
+import com.lazarnisic.ParkSmart.model.*;
+import com.lazarnisic.ParkSmart.repository.*;
 import com.lazarnisic.ParkSmart.service.CityService;
 import com.lazarnisic.ParkSmart.service.ParkingSpotService;
 import com.lazarnisic.ParkSmart.service.UserService;
+import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,6 +46,8 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
     private final ParkingSpotImageRepository parkingSpotImageRepository;
 
     private final ParkingSpotImageMapper parkingSpotImageMapper;
+
+    private final ParkingAccessRepository parkingAccessRepository;
 
     @Override
     public List<ParkingSpotDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime) {
@@ -113,6 +110,23 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
         parkingSpotImage.setImageUrl(imageUrl);
         parkingSpotImage.setTimestamp(LocalDateTime.now());
         return parkingSpotImageMapper.toDto(parkingSpotImageRepository.save(parkingSpotImage));
+    }
+
+    @Override
+    public ParkingSpotDTO createParkingAccess(Long parkingSpotId, ParkingAccessData parkingAccessData) {
+        ParkingSpot parkingSpot = parkingSpotRepository.findById(parkingSpotId)
+                .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
+
+        ParkingAccess parkingAccess = new ParkingAccess();
+        parkingAccess.setAccessType(parkingAccessData.getAccessType());
+        parkingAccess.setNumberOfAccesses(parkingAccessData.getNumberOfAccesses());
+        parkingAccess.setAccessTimeStart(parkingAccessData.getAccessTimeStart());
+        parkingAccess.setAccessTimeEnd(parkingAccessData.getAccessTimeEnd());
+        parkingAccess.setTimestamp(LocalDateTime.now());
+
+        parkingSpot.setParkingAccess(parkingAccessRepository.save(parkingAccess));
+
+        return parkingSpotMapper.toDto(parkingSpotRepository.save(parkingSpot));
     }
 
     private boolean isSpotAvailable(ParkingSpot parkingSpot, LocalDateTime startTime, LocalDateTime endTime) {
