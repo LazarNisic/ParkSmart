@@ -1,11 +1,13 @@
 package com.lazarnisic.ParkSmart.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.lazarnisic.ParkSmart.enums.AccessType;
 import com.lazarnisic.ParkSmart.enums.NumberOfAccesses;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -23,11 +25,13 @@ public class ParkingAccess {
     @Column(name = "number_of_accesses")
     private NumberOfAccesses numberOfAccesses;
 
+    @JsonFormat(pattern = "HH:mm:ss")
     @Column(name = "access_time_start")
-    private LocalDateTime accessTimeStart;
+    private LocalTime accessTimeStart;
 
+    @JsonFormat(pattern = "HH:mm:ss")
     @Column(name = "access_time_end")
-    private LocalDateTime accessTimeEnd;
+    private LocalTime accessTimeEnd;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @SuperBuilder
@@ -14,8 +15,8 @@ import java.time.LocalDateTime;
 public class ParkingAccessDTO {
     private Long id;
     private AccessType accessType;
-    private LocalDateTime accessTimeStart;
-    private LocalDateTime accessTimeEnd;
+    private LocalTime accessTimeStart;
+    private LocalTime accessTimeEnd;
     private NumberOfAccesses numberOfAccesses;
     private LocalDateTime timestamp;
 }
