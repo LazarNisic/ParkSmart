@@ -17,6 +17,10 @@ public class ParkingSpotImage {
     @JoinColumn(name = "parking_spot_rent_id")
     private ParkingSpotRent parkingSpotRent;
 
+    @ManyToOne(targetEntity = ParkingSpotSale.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "parking_spot_sale_id")
+    private ParkingSpotSale parkingSpotSale;
+
     @Column(name = "image_url")
     private String imageUrl;
 

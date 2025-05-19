@@ -23,12 +23,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/parking-spot")
+@RequestMapping(value = "/parking-spot-rent")
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "02 Parking Spot", description = "List of Parking Spot methods")
+@Tag(name = "02 Parking Spot Rent", description = "List of Parking Spot Rent methods")
 @SecurityRequirement(name = "bearerAuth")
-public class ParkingSpotController {
+public class ParkingSpotRentController {
 
     private final ParkingSpotRentService parkingSpotRentService;
 
@@ -54,7 +54,7 @@ public class ParkingSpotController {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @Operation(summary = "Create new parking spot", description = "Method for creating new parking spot")
-    @PostMapping
+    @PostMapping(value = "/create")
     public ResponseEntity<ParkingSpotRentDTO> create(@Valid @RequestBody ParkingSpotRentData parkingSpotRentData) {
         return new ResponseEntity<>(parkingSpotRentService.createParkingSpot(parkingSpotRentData), HttpStatus.CREATED);
     }
