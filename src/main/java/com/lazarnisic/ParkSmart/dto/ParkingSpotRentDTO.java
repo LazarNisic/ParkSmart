@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @SuperBuilder
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-public class ParkingSpotDTO {
+public class ParkingSpotRentDTO {
     private Long id;
     private CityDTO city;
     private String address;

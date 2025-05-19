@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParkingSpotData {
+public class ParkingSpotRentData {
     @NotBlank(message = "City cannot be null or empty.")
     private String city;
     @NotBlank(message = "Address cannot be null or empty.")

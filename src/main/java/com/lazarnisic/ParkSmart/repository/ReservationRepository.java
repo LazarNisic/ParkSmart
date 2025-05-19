@@ -11,10 +11,10 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @Query("SELECT r FROM Reservation r " +
-            "WHERE r.parkingSpot.id = :parkingSpotId " +
+            "WHERE r.parkingSpotRent.id = :parkingSpotRentId " +
             "AND (r.startTime < :endTime AND r.endTime > :startTime)")
     List<Reservation> findConflictingReservations(
-            @Param("parkingSpotId") Long parkingSpotId,
+            @Param("parkingSpotRentId") Long parkingSpotRentId,
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime
             );

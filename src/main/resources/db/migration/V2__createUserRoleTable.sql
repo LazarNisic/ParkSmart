@@ -1,4 +1,4 @@
-CREATE TABLE "user_role" (
+CREATE TABLE IF NOT EXISTS "user_role" (
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
     role VARCHAR(50) NOT NULL,

@@ -17,9 +17,9 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(targetEntity = ParkingSpot.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "parking_spot_id")
-    private ParkingSpot parkingSpot;
+    @ManyToOne(targetEntity = ParkingSpotRent.class, fetch = FetchType.EAGER)
+    @JoinColumn(name = "parking_spot_rent_id")
+    private ParkingSpotRent parkingSpotRent;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

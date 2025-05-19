@@ -10,12 +10,12 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "parking_spot", schema = "public",
+@Table(name = "parking_spot_rent", schema = "public",
         indexes = {
-                @Index(name = "idx_parking_spot_city", columnList = "city_id"),
-                @Index(name = "idx_parking_spot_city_available", columnList = "city_id, is_available")
+                //@Index(name = "idx_parking_spot_city", columnList = "city_id"),
+                @Index(name = "idx_parking_spot_rent_city", columnList = "city_id, is_available")
         })
-public class ParkingSpot implements Serializable {
+public class ParkingSpotRent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -48,10 +48,10 @@ public class ParkingSpot implements Serializable {
     @JoinColumn(name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "parkingSpot", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parkingSpotRent", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations;
 
-    @OneToMany(mappedBy = "parkingSpot", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "parkingSpotRent", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ParkingSpotImage> images;
 
 }

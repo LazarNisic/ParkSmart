@@ -1,4 +1,4 @@
-CREATE TABLE "parking_access" (
+CREATE TABLE IF NOT EXISTS "parking_access" (
     id INTEGER PRIMARY KEY,
     access_type VARCHAR(50) NOT NULL,
     number_of_accesses VARCHAR(50) NOT NULL,

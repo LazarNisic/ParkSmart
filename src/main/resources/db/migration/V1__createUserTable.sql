@@ -1,4 +1,4 @@
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
     id INTEGER PRIMARY KEY,
     user_name VARCHAR(50) NOT NULL,
     password VARCHAR(512) NOT NULL,

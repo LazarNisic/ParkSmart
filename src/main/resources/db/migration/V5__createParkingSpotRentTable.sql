@@ -1,4 +1,4 @@
-CREATE TABLE "parking_spot" (
+CREATE TABLE IF NOT EXISTS "parking_spot_rent" (
     id INTEGER PRIMARY KEY,
     city_id INTEGER NOT NULL,
     address VARCHAR(512) NOT NULL,

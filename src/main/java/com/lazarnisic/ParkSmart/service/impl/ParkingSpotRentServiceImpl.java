@@ -1,20 +1,20 @@
 package com.lazarnisic.ParkSmart.service.impl;
 
 import com.lazarnisic.ParkSmart.dto.CityDTO;
-import com.lazarnisic.ParkSmart.dto.ParkingSpotDTO;
+import com.lazarnisic.ParkSmart.dto.ParkingSpotRentDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
 import com.lazarnisic.ParkSmart.enums.ListingType;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotImageMapper;
-import com.lazarnisic.ParkSmart.mapper.ParkingSpotMapper;
+import com.lazarnisic.ParkSmart.mapper.ParkingSpotRentMapper;
 import com.lazarnisic.ParkSmart.mapper.UserMapper;
 import com.lazarnisic.ParkSmart.model.*;
 import com.lazarnisic.ParkSmart.repository.*;
 import com.lazarnisic.ParkSmart.service.CityService;
-import com.lazarnisic.ParkSmart.service.ParkingSpotService;
+import com.lazarnisic.ParkSmart.service.ParkingSpotRentService;
 import com.lazarnisic.ParkSmart.service.UserService;
 import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
-import com.lazarnisic.ParkSmart.service.data.ParkingSpotData;
+import com.lazarnisic.ParkSmart.service.data.ParkingSpotRentData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,13 +27,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ParkingSpotServiceImpl implements ParkingSpotService {
+public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
 
-    private final ParkingSpotRepository parkingSpotRepository;
+    private final ParkingSpotRentRepository parkingSpotRentRepository;
 
     private final ReservationRepository reservationRepository;
 
-    private final ParkingSpotMapper parkingSpotMapper;
+    private final ParkingSpotRentMapper parkingSpotRentMapper;
 
     private final UserService userService;
 
@@ -50,71 +50,71 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
     private final ParkingAccessRepository parkingAccessRepository;
 
     @Override
-    public List<ParkingSpotDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime) {
+    public List<ParkingSpotRentDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime) {
 
         //cityService or cityRepository???
         CityDTO city = cityService.findByName(cityName);
 
-        List<ParkingSpot> availableSpots = parkingSpotRepository.findAvailableByLocation(city.getId());
+        List<ParkingSpotRent> availableSpots = parkingSpotRentRepository.findAvailableByLocation(city.getId());
 
-        return parkingSpotMapper.toDto(availableSpots.stream()
+        return parkingSpotRentMapper.toDto(availableSpots.stream()
                 .filter(spot -> isSpotAvailable(spot, startTime, endTime))
                 .toList());
     }
 
     @Override
-    public List<ParkingSpotDTO> getRentParkingSpotsForCity(String cityName) {
+    public List<ParkingSpotRentDTO> getRentParkingSpotsForCity(String cityName) {
         //cityService or cityRepository???
         CityDTO city = cityService.findByName(cityName);
-        List<ParkingSpot> availableSpotsForRent = parkingSpotRepository
+        List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository
                 .findAvailableByLocationAndListingType(city.getId(), ListingType.RENT);
-        return parkingSpotMapper.toDto(availableSpotsForRent);
+        return parkingSpotRentMapper.toDto(availableSpotsForRent);
     }
 
     @Override
-    public List<ParkingSpotDTO> getSaleParkingSpotsForCity(String cityName) {
+    public List<ParkingSpotRentDTO> getSaleParkingSpotsForCity(String cityName) {
         //cityService or cityRepository???
         CityDTO city = cityService.findByName(cityName);
-        List<ParkingSpot> availableSpotsForRent = parkingSpotRepository
+        List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository
                 .findAvailableByLocationAndListingType(city.getId(), ListingType.SALE);
-        return parkingSpotMapper.toDto(availableSpotsForRent);
+        return parkingSpotRentMapper.toDto(availableSpotsForRent);
     }
 
     @Override
-    public ParkingSpotDTO createParkingSpot(ParkingSpotData parkingSpotData) {
-        ParkingSpot parkingSpot = new ParkingSpot();
-        parkingSpot.setOwner(userMapper.toEntity(userService.getAuthenticatedUser()));
+    public ParkingSpotRentDTO createParkingSpot(ParkingSpotRentData parkingSpotRentData) {
+        ParkingSpotRent parkingSpotRent = new ParkingSpotRent();
+        parkingSpotRent.setOwner(userMapper.toEntity(userService.getAuthenticatedUser()));
         City city = new City();
-        city.setName(parkingSpotData.getCity());
-        city.setCountry(parkingSpotData.getCountry());
+        city.setName(parkingSpotRentData.getCity());
+        city.setCountry(parkingSpotRentData.getCountry());
         city.setTimestamp(LocalDateTime.now());
         City savedCity = cityRepository.save(city);
-        parkingSpot.setCity(savedCity);
-        parkingSpot.setAddress(parkingSpotData.getAddress());
-        parkingSpot.setAvailable(true);
-        parkingSpot.setPricePerHour(parkingSpotData.getPricePerHour());
-        parkingSpot.setListingType(parkingSpotData.getListingType());
-        parkingSpot.setTimestamp(LocalDateTime.now());
-        return parkingSpotMapper.toDto(parkingSpotRepository.save(parkingSpot));
+        parkingSpotRent.setCity(savedCity);
+        parkingSpotRent.setAddress(parkingSpotRentData.getAddress());
+        parkingSpotRent.setAvailable(true);
+        parkingSpotRent.setPricePerHour(parkingSpotRentData.getPricePerHour());
+        parkingSpotRent.setListingType(parkingSpotRentData.getListingType());
+        parkingSpotRent.setTimestamp(LocalDateTime.now());
+        return parkingSpotRentMapper.toDto(parkingSpotRentRepository.save(parkingSpotRent));
     }
 
     @Override
     public ParkingSpotImageDTO saveImage(Long parkingSpotId, MultipartFile file) throws IOException {
-        ParkingSpot parkingSpot = parkingSpotRepository.findById(parkingSpotId)
+        ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(parkingSpotId)
                 .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
 
         String imageUrl = saveFileToStorage(file);
 
         ParkingSpotImage parkingSpotImage = new ParkingSpotImage();
-        parkingSpotImage.setParkingSpot(parkingSpot);
+        parkingSpotImage.setParkingSpotRent(parkingSpotRent);
         parkingSpotImage.setImageUrl(imageUrl);
         parkingSpotImage.setTimestamp(LocalDateTime.now());
         return parkingSpotImageMapper.toDto(parkingSpotImageRepository.save(parkingSpotImage));
     }
 
     @Override
-    public ParkingSpotDTO createParkingAccess(Long parkingSpotId, ParkingAccessData parkingAccessData) {
-        ParkingSpot parkingSpot = parkingSpotRepository.findById(parkingSpotId)
+    public ParkingSpotRentDTO createParkingAccess(Long parkingSpotId, ParkingAccessData parkingAccessData) {
+        ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(parkingSpotId)
                 .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
 
         ParkingAccess parkingAccess = new ParkingAccess();
@@ -124,13 +124,13 @@ public class ParkingSpotServiceImpl implements ParkingSpotService {
         parkingAccess.setAccessTimeEnd(parkingAccessData.getAccessTimeEnd());
         parkingAccess.setTimestamp(LocalDateTime.now());
 
-        parkingSpot.setParkingAccess(parkingAccessRepository.save(parkingAccess));
+        parkingSpotRent.setParkingAccess(parkingAccessRepository.save(parkingAccess));
 
-        return parkingSpotMapper.toDto(parkingSpotRepository.save(parkingSpot));
+        return parkingSpotRentMapper.toDto(parkingSpotRentRepository.save(parkingSpotRent));
     }
 
-    private boolean isSpotAvailable(ParkingSpot parkingSpot, LocalDateTime startTime, LocalDateTime endTime) {
-        List<Reservation> conflictingreservations = reservationRepository.findConflictingReservations(parkingSpot.getId(), startTime, endTime);
+    private boolean isSpotAvailable(ParkingSpotRent parkingSpotRent, LocalDateTime startTime, LocalDateTime endTime) {
+        List<Reservation> conflictingreservations = reservationRepository.findConflictingReservations(parkingSpotRent.getId(), startTime, endTime);
         return conflictingreservations.isEmpty();
     }
 

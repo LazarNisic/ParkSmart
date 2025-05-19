@@ -7,9 +7,9 @@ import com.lazarnisic.ParkSmart.exception.ParkingSpotNotAvailable;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
 import com.lazarnisic.ParkSmart.mapper.ReservationMapper;
 import com.lazarnisic.ParkSmart.mapper.UserMapper;
-import com.lazarnisic.ParkSmart.model.ParkingSpot;
+import com.lazarnisic.ParkSmart.model.ParkingSpotRent;
 import com.lazarnisic.ParkSmart.model.Reservation;
-import com.lazarnisic.ParkSmart.repository.ParkingSpotRepository;
+import com.lazarnisic.ParkSmart.repository.ParkingSpotRentRepository;
 import com.lazarnisic.ParkSmart.repository.ReservationRepository;
 import com.lazarnisic.ParkSmart.service.NotificationService;
 import com.lazarnisic.ParkSmart.service.ReservationService;
@@ -28,7 +28,7 @@ import java.util.List;
 @Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
-    private final ParkingSpotRepository parkingSpotRepository;
+    private final ParkingSpotRentRepository parkingSpotRentRepository;
     private final ReservationRepository reservationRepository;
     private final UserMapper userMapper;
     private final UserService userService;
@@ -41,10 +41,10 @@ public class ReservationServiceImpl implements ReservationService {
             throw new IllegalArgumentException("End time must be after start time");
         }
 
-        ParkingSpot parkingSpot = parkingSpotRepository.findById(reservationData.getParkingSpotId()).
+        ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(reservationData.getParkingSpotId()).
                 orElseThrow(() -> new ParkingSpotNotFound(reservationData.getParkingSpotId()));
 
-        if (!parkingSpot.isAvailable()) {
+        if (!parkingSpotRent.isAvailable()) {
             throw new ParkingSpotNotAvailable(reservationData.getParkingSpotId());
         }
 
@@ -57,12 +57,12 @@ public class ReservationServiceImpl implements ReservationService {
         }
 
         long hours = Duration.between(reservationData.getStartTime(), reservationData.getEndTime()).toHours();
-        double totalPrice = hours * parkingSpot.getPricePerHour();
+        double totalPrice = hours * parkingSpotRent.getPricePerHour();
         UserDTO user = userService.getAuthenticatedUser();
 
         Reservation reservation = new Reservation();
         reservation.setUser(userMapper.toEntity(user));
-        reservation.setParkingSpot(parkingSpot);
+        reservation.setParkingSpotRent(parkingSpotRent);
         reservation.setStartTime(reservationData.getStartTime());
         reservation.setEndTime(reservationData.getEndTime());
         reservation.setTotalPrice(totalPrice);
@@ -73,7 +73,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         String notificationMessage = createdReservation.toString();
         notificationService.sendReservationNotification(notificationMessage + "\n" +
-                "Address: " + parkingSpot.getAddress() + "\n" + parkingSpot.getCity());
+                "Address: " + parkingSpotRent.getAddress() + "\n" + parkingSpotRent.getCity());
 
         return createdReservation;
     }
