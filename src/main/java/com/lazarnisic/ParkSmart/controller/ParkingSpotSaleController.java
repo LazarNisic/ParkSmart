@@ -12,10 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/parking-spot-sale")
@@ -32,5 +31,12 @@ public class ParkingSpotSaleController {
     @PostMapping(value = "/create")
     public ResponseEntity<ParkingSpotSaleDTO> create(@Valid @RequestBody ParkingSpotSaleData parkingSpotSaleData) {
         return new ResponseEntity<>(parkingSpotSaleService.create(parkingSpotSaleData), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Available parking spots for sale", description = "List of available parking spots for sale")
+    @GetMapping(value = "/available-for-sale")
+    public ResponseEntity<List<ParkingSpotSaleDTO>> getSaleParkingSpotsForCity(@RequestParam String cityName) {
+        return new ResponseEntity<>(parkingSpotSaleService.getSaleParkingSpotsForCity(cityName), HttpStatus.OK);
     }
 }

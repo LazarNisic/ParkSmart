@@ -41,15 +41,10 @@ public class ParkingSpotRentController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Available parking spots for rent", description = "List of available parking spots for rent")
     @GetMapping(value = "/available-for-rent")
     public ResponseEntity<List<ParkingSpotRentDTO>> getRentParkingSpotsForCity(@RequestParam String city) {
         return new ResponseEntity<>(parkingSpotRentService.getRentParkingSpotsForCity(city), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
-    @GetMapping(value = "/available-for-sale")
-    public ResponseEntity<List<ParkingSpotRentDTO>> getSaleParkingSpotsForCity(@RequestParam String city) {
-        return new ResponseEntity<>(parkingSpotRentService.getSaleParkingSpotsForCity(city), HttpStatus.OK);
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")

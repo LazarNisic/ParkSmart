@@ -1,6 +1,5 @@
 package com.lazarnisic.ParkSmart.repository;
 
-import com.lazarnisic.ParkSmart.enums.ListingType;
 import com.lazarnisic.ParkSmart.model.ParkingSpotRent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +13,5 @@ public interface ParkingSpotRentRepository extends JpaRepository<ParkingSpotRent
             "WHERE ps.city.id = :cityId AND ps.available = true")
     List<ParkingSpotRent> findAvailableByLocation(@Param("cityId") Long cityId);
 
-    @Query("SELECT ps FROM ParkingSpotRent ps " +
-            "WHERE ps.city.id = :cityId AND ps.available = true AND ps.listingType = :listingType")
-    List<ParkingSpotRent> findAvailableByLocationAndListingType(@Param("cityId") Long cityId, @Param("listingType") ListingType listingType);
+    List<ParkingSpotRent> findAllByCity_NameAndAvailableTrue(String cityName);
 }

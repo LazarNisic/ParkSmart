@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,11 @@ public class ParkingSpotSaleServiceImpl implements ParkingSpotSaleService {
         parkingSpotSale.setPrice(parkingSpotSaleData.getPrice());
         parkingSpotSale.setTimestamp(LocalDateTime.now());
         return parkingSpotSaleMapper.toDto(parkingSpotSaleRepository.save(parkingSpotSale));
+    }
+
+    @Override
+    public List<ParkingSpotSaleDTO> getSaleParkingSpotsForCity(String cityName) {
+        List<ParkingSpotSale> parkingSpots = parkingSpotSaleRepository.findAllByCity_Name(cityName);
+        return parkingSpotSaleMapper.toDto(parkingSpots);
     }
 }

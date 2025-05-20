@@ -3,7 +3,6 @@ package com.lazarnisic.ParkSmart.service.impl;
 import com.lazarnisic.ParkSmart.dto.CityDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotRentDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
-import com.lazarnisic.ParkSmart.enums.ListingType;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotImageMapper;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotRentMapper;
@@ -61,17 +60,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
 
     @Override
     public List<ParkingSpotRentDTO> getRentParkingSpotsForCity(String cityName) {
-        CityDTO city = cityService.findByName(cityName);
-        List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository
-                .findAvailableByLocationAndListingType(city.getId(), ListingType.RENT);
-        return parkingSpotRentMapper.toDto(availableSpotsForRent);
-    }
-
-    @Override
-    public List<ParkingSpotRentDTO> getSaleParkingSpotsForCity(String cityName) {
-        CityDTO city = cityService.findByName(cityName);
-        List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository
-                .findAvailableByLocationAndListingType(city.getId(), ListingType.SALE);
+        List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository.findAllByCity_NameAndAvailableTrue(cityName);
         return parkingSpotRentMapper.toDto(availableSpotsForRent);
     }
 

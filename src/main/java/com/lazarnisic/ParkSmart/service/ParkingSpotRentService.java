@@ -15,8 +15,6 @@ public interface ParkingSpotRentService {
 
     List<ParkingSpotRentDTO> getRentParkingSpotsForCity(String cityName);
 
-    List<ParkingSpotRentDTO> getSaleParkingSpotsForCity(String cityName);
-
     ParkingSpotRentDTO createParkingSpot(ParkingSpotRentData parkingSpotRentData);
 
     ParkingSpotImageDTO saveImage (Long parkingSpotId, MultipartFile file) throws IOException;
