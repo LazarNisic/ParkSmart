@@ -1,9 +1,6 @@
 package com.lazarnisic.ParkSmart.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.lazarnisic.ParkSmart.enums.ListingType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 
@@ -18,8 +15,6 @@ public class ParkingSpotRentDTO {
     private String address;
     private boolean available;
     private double pricePerHour;
-    @Enumerated(EnumType.STRING)
-    private ListingType listingType;
     private LocalDateTime timestamp;
     private ParkingAccessDTO parkingAccess;
 }

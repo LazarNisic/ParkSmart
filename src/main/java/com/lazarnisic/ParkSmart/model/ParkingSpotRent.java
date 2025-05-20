@@ -1,6 +1,5 @@
 package com.lazarnisic.ParkSmart.model;
 
-import com.lazarnisic.ParkSmart.enums.ListingType;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -32,10 +31,6 @@ public class ParkingSpotRent implements Serializable {
 
     @Column(name = "price_per_hour")
     private double pricePerHour;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "listing_type")
-    private ListingType listingType;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
