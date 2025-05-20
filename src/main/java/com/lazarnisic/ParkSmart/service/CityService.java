@@ -1,7 +1,7 @@
 package com.lazarnisic.ParkSmart.service;
 
 import com.lazarnisic.ParkSmart.dto.CityDTO;
-import com.lazarnisic.ParkSmart.service.data.CityData;
+import com.lazarnisic.ParkSmart.model.City;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ public interface CityService {
 
     CityDTO findByName(String name);
 
-    CityDTO create(CityData cityData);
+    City findOrCreate(String name, String country);
 }

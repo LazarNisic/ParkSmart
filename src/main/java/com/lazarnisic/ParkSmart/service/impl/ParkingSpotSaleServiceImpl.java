@@ -5,8 +5,8 @@ import com.lazarnisic.ParkSmart.mapper.ParkingSpotSaleMapper;
 import com.lazarnisic.ParkSmart.mapper.UserMapper;
 import com.lazarnisic.ParkSmart.model.City;
 import com.lazarnisic.ParkSmart.model.ParkingSpotSale;
-import com.lazarnisic.ParkSmart.repository.CityRepository;
 import com.lazarnisic.ParkSmart.repository.ParkingSpotSaleRepository;
+import com.lazarnisic.ParkSmart.service.CityService;
 import com.lazarnisic.ParkSmart.service.ParkingSpotSaleService;
 import com.lazarnisic.ParkSmart.service.UserService;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotSaleData;
@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,30 +23,15 @@ public class ParkingSpotSaleServiceImpl implements ParkingSpotSaleService {
 
     private final UserMapper userMapper;
     private final UserService userService;
-    private final CityRepository cityRepository;
     private final ParkingSpotSaleMapper parkingSpotSaleMapper;
     private final ParkingSpotSaleRepository parkingSpotSaleRepository;
+    private final CityService cityService;
 
     @Override
     public ParkingSpotSaleDTO create(ParkingSpotSaleData parkingSpotSaleData) {
         ParkingSpotSale parkingSpotSale = new ParkingSpotSale();
         parkingSpotSale.setOwner(userMapper.toEntity(userService.getAuthenticatedUser()));
-
-        Optional<City> existingCity = cityRepository.findByNameAndCountry(
-                parkingSpotSaleData.getCity(),
-                parkingSpotSaleData.getCountry()
-        );
-        City city;
-        if (existingCity.isPresent()) {
-            city = existingCity.get();
-        } else {
-            city = new City();
-            city.setName(parkingSpotSaleData.getCity());
-            city.setCountry(parkingSpotSaleData.getCountry());
-            city.setTimestamp(LocalDateTime.now());
-            city = cityRepository.save(city);
-        }
-
+        City city = cityService.findOrCreate(parkingSpotSaleData.getCity(), parkingSpotSaleData.getCountry());
         parkingSpotSale.setCity(city);
         parkingSpotSale.setAddress(parkingSpotSaleData.getAddress());
         parkingSpotSale.setPrice(parkingSpotSaleData.getPrice());

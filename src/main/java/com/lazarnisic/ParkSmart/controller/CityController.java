@@ -1,12 +1,11 @@
 package com.lazarnisic.ParkSmart.controller;
 
 import com.lazarnisic.ParkSmart.dto.CityDTO;
+import com.lazarnisic.ParkSmart.model.City;
 import com.lazarnisic.ParkSmart.service.CityService;
-import com.lazarnisic.ParkSmart.service.data.CityData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -40,9 +39,9 @@ public class CityController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
-    @Operation(summary = "Create new city", description = "Method for creating new city")
-    @PostMapping
-    public ResponseEntity<CityDTO> create(@Valid @RequestBody CityData cityData) {
-        return new ResponseEntity<>(cityService.create(cityData), HttpStatus.CREATED);
+    @Operation(summary = "Create new city", description = "Method for creating new city if it does not exist")
+    @PostMapping(value = "/create")
+    public ResponseEntity<City> create(@RequestParam String name, @RequestParam String country) {
+        return new ResponseEntity<>(cityService.findOrCreate(name, country), HttpStatus.CREATED);
     }
 }

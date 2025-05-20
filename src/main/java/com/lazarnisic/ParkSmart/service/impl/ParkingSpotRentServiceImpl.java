@@ -41,8 +41,6 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
 
     private final CityService cityService;
 
-    private final CityRepository cityRepository;
-
     private final ParkingSpotImageRepository parkingSpotImageRepository;
 
     private final ParkingSpotImageMapper parkingSpotImageMapper;
@@ -52,7 +50,6 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     @Override
     public List<ParkingSpotRentDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime) {
 
-        //cityService or cityRepository???
         CityDTO city = cityService.findByName(cityName);
 
         List<ParkingSpotRent> availableSpots = parkingSpotRentRepository.findAvailableByLocation(city.getId());
@@ -64,7 +61,6 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
 
     @Override
     public List<ParkingSpotRentDTO> getRentParkingSpotsForCity(String cityName) {
-        //cityService or cityRepository???
         CityDTO city = cityService.findByName(cityName);
         List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository
                 .findAvailableByLocationAndListingType(city.getId(), ListingType.RENT);
@@ -73,7 +69,6 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
 
     @Override
     public List<ParkingSpotRentDTO> getSaleParkingSpotsForCity(String cityName) {
-        //cityService or cityRepository???
         CityDTO city = cityService.findByName(cityName);
         List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository
                 .findAvailableByLocationAndListingType(city.getId(), ListingType.SALE);
@@ -84,12 +79,8 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     public ParkingSpotRentDTO createParkingSpot(ParkingSpotRentData parkingSpotRentData) {
         ParkingSpotRent parkingSpotRent = new ParkingSpotRent();
         parkingSpotRent.setOwner(userMapper.toEntity(userService.getAuthenticatedUser()));
-        City city = new City();
-        city.setName(parkingSpotRentData.getCity());
-        city.setCountry(parkingSpotRentData.getCountry());
-        city.setTimestamp(LocalDateTime.now());
-        City savedCity = cityRepository.save(city);
-        parkingSpotRent.setCity(savedCity);
+        City city = cityService.findOrCreate(parkingSpotRentData.getCity(), parkingSpotRentData.getCountry());
+        parkingSpotRent.setCity(city);
         parkingSpotRent.setAddress(parkingSpotRentData.getAddress());
         parkingSpotRent.setAvailable(true);
         parkingSpotRent.setPricePerHour(parkingSpotRentData.getPricePerHour());

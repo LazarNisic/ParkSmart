@@ -6,7 +6,6 @@ import com.lazarnisic.ParkSmart.mapper.CityMapper;
 import com.lazarnisic.ParkSmart.model.City;
 import com.lazarnisic.ParkSmart.repository.CityRepository;
 import com.lazarnisic.ParkSmart.service.CityService;
-import com.lazarnisic.ParkSmart.service.data.CityData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,11 +42,16 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDTO create(CityData cityData) {
-        City city = new City();
-        city.setName(cityData.getName());
-        city.setCountry(cityData.getCountry());
-        city.setTimestamp(LocalDateTime.now());
-        return cityMapper.toDto(cityRepository.save(city));
+    @Transactional
+    public City findOrCreate(String name, String country) {
+        return cityRepository.findByNameAndCountry(name, country)
+                .orElseGet(() -> {
+                    City newCity = new City();
+                    newCity.setName(name);
+                    newCity.setCountry(country);
+                    newCity.setTimestamp(LocalDateTime.now());
+                    return cityRepository.save(newCity);
+                });
     }
+
 }
