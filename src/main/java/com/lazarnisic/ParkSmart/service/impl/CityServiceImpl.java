@@ -8,11 +8,12 @@ import com.lazarnisic.ParkSmart.repository.CityRepository;
 import com.lazarnisic.ParkSmart.service.CityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +23,12 @@ public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
     private final CityMapper cityMapper;
 
+
     @Override
-    public List<CityDTO> findAll() {
-        return cityMapper.toDto(cityRepository.findAll());
+    public Page<CityDTO> findAll(Pageable pageable) {
+        return cityRepository.findAll(pageable).map(cityMapper::toDto);
     }
+
 
     @Override
     @Transactional(readOnly = true)
