@@ -2,6 +2,7 @@ package com.lazarnisic.ParkSmart.controller;
 
 import com.lazarnisic.ParkSmart.dto.ParkingSpotSaleDTO;
 import com.lazarnisic.ParkSmart.service.ParkingSpotSaleService;
+import com.lazarnisic.ParkSmart.service.data.FeaturesData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotSaleData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -38,5 +39,12 @@ public class ParkingSpotSaleController {
     @GetMapping(value = "/available-for-sale")
     public ResponseEntity<List<ParkingSpotSaleDTO>> getSaleParkingSpotsForCity(@RequestParam String cityName) {
         return new ResponseEntity<>(parkingSpotSaleService.getSaleParkingSpotsForCity(cityName), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Create parking features", description = "Method for creating parking features for parking spot")
+    @PostMapping(value = "/{id}/create-parking-features")
+    public ResponseEntity<ParkingSpotSaleDTO> createParkingFeatures(@PathVariable Long id, @Valid @RequestBody FeaturesData featuresData) {
+        return new ResponseEntity<>(parkingSpotSaleService.createParkingFeatures(id, featuresData), HttpStatus.CREATED);
     }
 }

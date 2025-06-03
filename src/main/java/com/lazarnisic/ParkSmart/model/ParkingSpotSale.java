@@ -24,6 +24,10 @@ public class ParkingSpotSale {
     @Column(name = "price")
     private double price;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "features_id", referencedColumnName = "id")
+    private Features features;
+
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 

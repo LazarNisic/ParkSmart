@@ -17,4 +17,5 @@ public class ParkingSpotRentDTO {
     private double pricePerHour;
     private LocalDateTime timestamp;
     private ParkingAccessDTO parkingAccess;
+    private FeaturesDTO features;
 }

@@ -10,8 +10,10 @@ import com.lazarnisic.ParkSmart.mapper.UserMapper;
 import com.lazarnisic.ParkSmart.model.*;
 import com.lazarnisic.ParkSmart.repository.*;
 import com.lazarnisic.ParkSmart.service.CityService;
+import com.lazarnisic.ParkSmart.service.ParkingDetailsService;
 import com.lazarnisic.ParkSmart.service.ParkingSpotRentService;
 import com.lazarnisic.ParkSmart.service.UserService;
+import com.lazarnisic.ParkSmart.service.data.FeaturesData;
 import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotRentData;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,8 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     private final ParkingSpotImageMapper parkingSpotImageMapper;
 
     private final ParkingAccessRepository parkingAccessRepository;
+
+    private final ParkingDetailsService parkingDetailsService;
 
     @Override
     public List<ParkingSpotRentDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime) {
@@ -105,6 +109,17 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
 
         parkingSpotRent.setParkingAccess(parkingAccessRepository.save(parkingAccess));
 
+        return parkingSpotRentMapper.toDto(parkingSpotRentRepository.save(parkingSpotRent));
+    }
+
+    @Override
+    public ParkingSpotRentDTO createParkingFeatures(Long parkingSpotId, FeaturesData featuresData) {
+        ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(parkingSpotId)
+                .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
+
+        Features features = parkingDetailsService.createFeatures(featuresData);
+
+        parkingSpotRent.setFeatures(features);
         return parkingSpotRentMapper.toDto(parkingSpotRentRepository.save(parkingSpotRent));
     }
 

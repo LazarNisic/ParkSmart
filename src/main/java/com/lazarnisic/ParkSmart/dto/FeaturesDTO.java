@@ -9,11 +9,12 @@ import java.time.LocalDateTime;
 @Data
 @SuperBuilder
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-public class ParkingSpotSaleDTO {
+public class FeaturesDTO {
     private Long id;
-    private CityDTO city;
-    private String address;
-    private double price;
+    private boolean supportsSUV;
+    private boolean hasVideoSurveillance;
+    private boolean accessibleForDisabled;
+    private boolean nightLighting;
+    private boolean hasEVChargingStation;
     private LocalDateTime timestamp;
-    private FeaturesDTO features;
 }

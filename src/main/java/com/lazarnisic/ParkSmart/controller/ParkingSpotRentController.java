@@ -3,6 +3,7 @@ package com.lazarnisic.ParkSmart.controller;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotRentDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
 import com.lazarnisic.ParkSmart.service.ParkingSpotRentService;
+import com.lazarnisic.ParkSmart.service.data.FeaturesData;
 import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotRentData;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,6 +67,13 @@ public class ParkingSpotRentController {
     @PostMapping(value = "/{id}/create-parking-access")
     public ResponseEntity<ParkingSpotRentDTO> createParkingAccess(@PathVariable Long id, @Valid @RequestBody ParkingAccessData parkingAccessData) {
         return new ResponseEntity<>(parkingSpotRentService.createParkingAccess(id, parkingAccessData), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Create parking features", description = "Method for creating parking features for parking spot")
+    @PostMapping(value = "/{id}/create-parking-features")
+    public ResponseEntity<ParkingSpotRentDTO> createParkingFeatures(@PathVariable Long id, @Valid @RequestBody FeaturesData featuresData) {
+        return new ResponseEntity<>(parkingSpotRentService.createParkingFeatures(id, featuresData), HttpStatus.CREATED);
     }
 
 }

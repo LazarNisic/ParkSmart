@@ -39,6 +39,10 @@ public class ParkingSpotRent implements Serializable {
     @JoinColumn(name = "access_id", referencedColumnName = "id")
     private ParkingAccess parkingAccess;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "features_id", referencedColumnName = "id")
+    private Features features;
+
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "owner_id")
     private User owner;
