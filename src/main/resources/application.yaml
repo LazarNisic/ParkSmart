@@ -43,7 +43,10 @@ spring:
     password: fktw rdor tsya mesj
     port: '587'
 
-
+springdoc:
+  swagger-ui:
+    operations-sorter: method
+    tags-sorter: alpha
 #management:
 #  endpoint:
 #    beans:
