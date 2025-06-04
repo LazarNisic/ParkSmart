@@ -14,4 +14,6 @@ public class FeaturesData {
     private boolean accessibleForDisabled;
     private boolean nightLighting;
     private boolean hasEVChargingStation;
+    private boolean transportationService;
+    private boolean indoor;
 }

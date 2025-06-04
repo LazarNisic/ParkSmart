@@ -18,14 +18,16 @@ public class ParkingDetailsServiceImpl implements ParkingDetailsService {
     private final FeaturesRepository featuresRepository;
 
     @Override
-    public Features createFeatures(FeaturesData data) {
+    public Features createFeatures(FeaturesData featuresData) {
         Features features = new Features();
-        features.setSupportsSUV(data.isSupportsSUV());
-        features.setHasVideoSurveillance(data.isHasVideoSurveillance());
-        features.setAccessibleForDisabled(data.isAccessibleForDisabled());
-        features.setNightLighting(data.isNightLighting());
-        features.setHasEVChargingStation(data.isHasEVChargingStation());
+        features.setSupportsSUV(featuresData.isSupportsSUV());
+        features.setHasVideoSurveillance(featuresData.isHasVideoSurveillance());
+        features.setAccessibleForDisabled(featuresData.isAccessibleForDisabled());
+        features.setNightLighting(featuresData.isNightLighting());
+        features.setHasEVChargingStation(featuresData.isHasEVChargingStation());
         features.setTimestamp(LocalDateTime.now());
+        features.setTransportationService(featuresData.isTransportationService());
+        features.setIndoor(featuresData.isIndoor());
         return featuresRepository.save(features);
     }
 

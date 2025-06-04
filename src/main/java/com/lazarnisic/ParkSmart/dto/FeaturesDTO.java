@@ -17,4 +17,6 @@ public class FeaturesDTO {
     private boolean nightLighting;
     private boolean hasEVChargingStation;
     private LocalDateTime timestamp;
+    private boolean transportationService;
+    private boolean indoor;
 }

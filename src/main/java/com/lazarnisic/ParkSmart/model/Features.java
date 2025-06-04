@@ -28,6 +28,12 @@ public class Features {
     @Column(name = "has_EV_charging_station")
     private boolean hasEVChargingStation;
 
+    @Column(name = "transportation_service")
+    private boolean transportationService;
+
+    @Column(name = "indoor")
+    private boolean indoor;
+
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
 }

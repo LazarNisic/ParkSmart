@@ -5,5 +5,7 @@ CREATE TABLE IF NOT EXISTS "features" (
     accessible_for_disabled BOOLEAN NULL,
     night_lighting BOOLEAN NULL,
     has_EV_charging_station BOOLEAN NULL,
+    transportation_service BOOLEAN NULL,
+    indoor BOOLEAN NULL,
     "timestamp" TIMESTAMP NOT NULL
 );
