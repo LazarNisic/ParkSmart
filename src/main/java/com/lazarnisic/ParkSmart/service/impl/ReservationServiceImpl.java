@@ -5,6 +5,7 @@ import com.lazarnisic.ParkSmart.dto.UserDTO;
 import com.lazarnisic.ParkSmart.enums.PaymentStatus;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotAvailable;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
+import com.lazarnisic.ParkSmart.exception.ReservationDurationException;
 import com.lazarnisic.ParkSmart.mapper.ReservationMapper;
 import com.lazarnisic.ParkSmart.mapper.UserMapper;
 import com.lazarnisic.ParkSmart.model.ParkingSpotRent;
@@ -59,6 +60,10 @@ public class ReservationServiceImpl implements ReservationService {
         long hours = Duration.between(reservationData.getStartTime(), reservationData.getEndTime()).toHours();
         double totalPrice = hours * parkingSpotRent.getPricePerHour();
         UserDTO user = userService.getAuthenticatedUser();
+
+        if(hours < parkingSpotRent.getMinBookingDuration()){
+            throw new ReservationDurationException(parkingSpotRent.getMinBookingDuration());
+        }
 
         Reservation reservation = new Reservation();
         reservation.setUser(userMapper.toEntity(user));

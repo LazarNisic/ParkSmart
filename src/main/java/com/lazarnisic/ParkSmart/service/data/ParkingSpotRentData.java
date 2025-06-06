@@ -18,4 +18,6 @@ public class ParkingSpotRentData {
     private String country;
     @Positive(message = "Price per hour must be greater than zero.")
     private double pricePerHour;
+    @Positive(message = "Minimal booking duration must be greater than zero.")
+    private int minBookingDuration;
 }

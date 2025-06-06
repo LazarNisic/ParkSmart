@@ -15,6 +15,7 @@ public class ParkingSpotRentDTO {
     private String address;
     private boolean available;
     private double pricePerHour;
+    private int minBookingDuration;
     private LocalDateTime timestamp;
     private ParkingAccessDTO parkingAccess;
     private FeaturesDTO features;

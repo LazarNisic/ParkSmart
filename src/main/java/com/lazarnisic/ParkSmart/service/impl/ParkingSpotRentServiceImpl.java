@@ -77,6 +77,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
         parkingSpotRent.setAddress(parkingSpotRentData.getAddress());
         parkingSpotRent.setAvailable(true);
         parkingSpotRent.setPricePerHour(parkingSpotRentData.getPricePerHour());
+        parkingSpotRent.setMinBookingDuration(parkingSpotRentData.getMinBookingDuration());
         parkingSpotRent.setTimestamp(LocalDateTime.now());
         return parkingSpotRentMapper.toDto(parkingSpotRentRepository.save(parkingSpotRent));
     }
