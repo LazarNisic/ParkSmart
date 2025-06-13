@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS "parking_spot_rent" (
     address VARCHAR(512) NOT NULL,
     is_available BOOLEAN NOT NULL,
     price_per_hour DOUBLE PRECISION NOT NULL,
+    price_per_day DOUBLE PRECISION NULL,
+    price_per_month DOUBLE PRECISION NULL,
     min_booking_duration INTEGER NOT NULL,
     owner_id INTEGER NOT NULL,
     access_id INTEGER,

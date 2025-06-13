@@ -32,6 +32,12 @@ public class ParkingSpotRent implements Serializable {
     @Column(name = "price_per_hour")
     private double pricePerHour;
 
+    @Column(name = "price_per_day")
+    private Double pricePerDay;
+
+    @Column(name = "price_per_month")
+    private Double pricePerMonth;
+
     @Column(name = "min_booking_duration")
     private int minBookingDuration;
 

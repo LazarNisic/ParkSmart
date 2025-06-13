@@ -12,4 +12,8 @@ public class ReservationDurationException extends ApplicationException {
         super(String.format("Minimal booking duration is %s hours", minBookingDuration), ErrorCode.BAD_REQUEST, APP_ERROR_CODE, Map.of("minBookingDuration", minBookingDuration));
     }
 
+    public ReservationDurationException(String message) {
+        super(message, ErrorCode.BAD_REQUEST, APP_ERROR_CODE, Map.of("message", message));
+    }
+
 }

@@ -2,6 +2,7 @@ package com.lazarnisic.ParkSmart.controller;
 
 import com.lazarnisic.ParkSmart.dto.ReservationDTO;
 import com.lazarnisic.ParkSmart.service.ReservationService;
+import com.lazarnisic.ParkSmart.service.data.MonthlyReservationData;
 import com.lazarnisic.ParkSmart.service.data.ReservationData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -26,10 +27,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReservationController {
 
     private final ReservationService reservationService;
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @Operation(summary = "Create new reservation", description = "Method for creating new reservation")
     @PostMapping
     public ResponseEntity<ReservationDTO> create(@Valid @RequestBody ReservationData reservationData) {
         return new ResponseEntity<>(reservationService.createReservation(reservationData), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Create new monthly reservation", description = "Method for creating new monthly reservation")
+    @PostMapping(value = "/monthly")
+    public ResponseEntity<ReservationDTO> createMonthlyReservation(@Valid @RequestBody MonthlyReservationData monthlyReservationData) {
+        return new ResponseEntity<>(reservationService.createMonthlyReservation(monthlyReservationData), HttpStatus.CREATED);
     }
 }
