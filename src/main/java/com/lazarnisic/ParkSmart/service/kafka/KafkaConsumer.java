@@ -15,7 +15,13 @@ public class KafkaConsumer {
 
     @KafkaListener(topics = "reservation_notifications", groupId = "group_id")
     public void consume(String message) {
-        log.info(String.format("Consumed message: %s", message));
-        notificationService.sendEmailReservationNotification(message);
+        try {
+            log.info(String.format("Consumed message: %s", message));
+            notificationService.sendEmailReservationNotification(message);
+        } catch (Exception e) {
+            log.error("Error while processing Kafka message", e);
+            // Opcionalno: možeš poslati poruku u dead-letter topic ručno
+        }
+
     }
 }

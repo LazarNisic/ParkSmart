@@ -27,13 +27,19 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void sendEmailReservationNotification(String message) {
         log.info("Sending email notification: {}", message);
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        //String email = userService.getAuthenticatedUser().getUsername();
-        //mailMessage.setTo(email);
-        mailMessage.setTo("lazarn9@gmail.com");
-        mailMessage.setSubject("Reservation Notification");
-        mailMessage.setText("You have successfully made a reservation!" + "\n" + message);
-        javaMailSender.send(mailMessage);
-        log.info("Email sent to user");
+        try {
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            //String email = userService.getAuthenticatedUser().getUsername();
+            //mailMessage.setTo(email);
+            mailMessage.setTo("lazarn9@gmail.com");
+            mailMessage.setSubject("Reservation Notification");
+            mailMessage.setText("You have successfully made a reservation!" + "\n" + message);
+            javaMailSender.send(mailMessage);
+            log.info("Email sent to user");
+        } catch (Exception e) {
+            log.error("Failed to send email notification", e);
+            throw e; // ili nemoj bacati dalje ako želiš da Kafka ne retry-uje
+        }
+
     }
 }
