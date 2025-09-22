@@ -146,4 +146,16 @@ public class ReservationServiceImpl implements ReservationService {
         return createdReservation;
     }
 
+    @Override
+    public List<ReservationDTO> getReservationsOwnedByAuthenticatedUser() {
+        UserDTO user = userService.getAuthenticatedUser();
+        return reservationMapper.toDto(reservationRepository.findByParkingSpotRent_Owner(userMapper.toEntity(user)));
+    }
+
+    @Override
+    public List<ReservationDTO> getReservationsCreatedByAuthenticatedUser() {
+        UserDTO user = userService.getAuthenticatedUser();
+        return reservationMapper.toDto(reservationRepository.findByUser(userMapper.toEntity(user)));
+    }
+
 }

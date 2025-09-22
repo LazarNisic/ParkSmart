@@ -13,10 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/reservation")
@@ -40,5 +39,19 @@ public class ReservationController {
     @PostMapping(value = "/monthly")
     public ResponseEntity<ReservationDTO> createMonthlyReservation(@Valid @RequestBody MonthlyReservationData monthlyReservationData) {
         return new ResponseEntity<>(reservationService.createMonthlyReservation(monthlyReservationData), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Reservations for Parking spots owned by Authenticated User", description = "List of all Reservations for Parking spots owned by Authenticated User")
+    @GetMapping(value = "/reserved-parking-spots-owned-by-user")
+    public ResponseEntity<List<ReservationDTO>> getReservationsOwnedByAuthenticatedUser() {
+        return new ResponseEntity<>(reservationService.getReservationsOwnedByAuthenticatedUser(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Reservations for Parking spots created by Authenticated User", description = "List of all Reservations for Parking spots created by Authenticated User")
+    @GetMapping(value = "/reserved-parking-spots-created-by-user")
+    public ResponseEntity<List<ReservationDTO>> getReservationsCreatedByAuthenticatedUser() {
+        return new ResponseEntity<>(reservationService.getReservationsCreatedByAuthenticatedUser(), HttpStatus.OK);
     }
 }

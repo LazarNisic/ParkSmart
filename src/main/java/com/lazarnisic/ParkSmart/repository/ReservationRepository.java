@@ -1,6 +1,7 @@
 package com.lazarnisic.ParkSmart.repository;
 
 import com.lazarnisic.ParkSmart.model.Reservation;
+import com.lazarnisic.ParkSmart.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime
             );
+
+    List<Reservation> findByParkingSpotRent_Owner(User owner);
+
+    List<Reservation> findByUser(User user);
 }
