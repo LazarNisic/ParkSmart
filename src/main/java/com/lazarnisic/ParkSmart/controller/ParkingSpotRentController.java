@@ -76,4 +76,11 @@ public class ParkingSpotRentController {
         return new ResponseEntity<>(parkingSpotRentService.createParkingFeatures(id, featuresData), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Parking spots for rent for Authenticated User", description = "List of Parking spots for rent for Authenticated User")
+    @GetMapping(value = "/get-parking-spots-rent-for-user")
+    public ResponseEntity<List<ParkingSpotRentDTO>> getParkingSpotsByUser() {
+        return new ResponseEntity<>(parkingSpotRentService.getParkingSpotsForAuthenticatedUser(), HttpStatus.OK);
+    }
+
 }

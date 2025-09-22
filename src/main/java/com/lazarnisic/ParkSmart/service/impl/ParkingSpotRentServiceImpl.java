@@ -3,6 +3,7 @@ package com.lazarnisic.ParkSmart.service.impl;
 import com.lazarnisic.ParkSmart.dto.CityDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotRentDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
+import com.lazarnisic.ParkSmart.dto.UserDTO;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotImageMapper;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotRentMapper;
@@ -126,10 +127,25 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
         return parkingSpotRentMapper.toDto(parkingSpotRentRepository.save(parkingSpotRent));
     }
 
+    @Override
+    public List<ParkingSpotRentDTO> getParkingSpotsForAuthenticatedUser() {
+        UserDTO user = userService.getAuthenticatedUser();
+        return parkingSpotRentMapper.toDto(parkingSpotRentRepository.findByOwner(userMapper.toEntity(user)));
+    }
+
     private boolean isSpotAvailable(ParkingSpotRent parkingSpotRent, LocalDateTime startTime, LocalDateTime endTime) {
         List<Reservation> conflictingreservations = reservationRepository.findConflictingReservations(parkingSpotRent.getId(), startTime, endTime);
         return conflictingreservations.isEmpty();
     }
+
+//    private void addParkingAccess(Long parkingSpotId, ParkingSpotRentData parkingSpotRentData){
+//        ParkingAccess parkingAccess = new ParkingAccess();
+//        parkingAccess.setAccessType(parkingSpotRentData.getParkingAccessData().getAccessType());
+//        parkingAccess.setNumberOfAccesses(parkingSpotRentData.getParkingAccessData().getNumberOfAccesses());
+//        parkingAccess.setAccessTimeStart(parkingSpotRentData.getParkingAccessData().getAccessTimeStart());
+//        parkingAccess.setAccessTimeEnd(parkingSpotRentData.getParkingAccessData().getAccessTimeEnd());
+//        parkingAccess.setTimestamp(LocalDateTime.now());
+//    }
 
 
     private String saveFileToStorage(MultipartFile file) throws IOException {

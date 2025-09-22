@@ -23,4 +23,6 @@ public interface ParkingSpotRentService {
     ParkingSpotRentDTO createParkingAccess(Long parkingSpotId, ParkingAccessData parkingAccessData);
 
     ParkingSpotRentDTO createParkingFeatures(Long parkingSpotId, FeaturesData featuresData);
+
+    List<ParkingSpotRentDTO> getParkingSpotsForAuthenticatedUser();
 }

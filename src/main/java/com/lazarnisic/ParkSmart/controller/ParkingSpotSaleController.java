@@ -47,4 +47,11 @@ public class ParkingSpotSaleController {
     public ResponseEntity<ParkingSpotSaleDTO> createParkingFeatures(@PathVariable Long id, @Valid @RequestBody FeaturesData featuresData) {
         return new ResponseEntity<>(parkingSpotSaleService.createParkingFeatures(id, featuresData), HttpStatus.CREATED);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @Operation(summary = "Parking spots for sale for Authenticated User", description = "List of Parking spots for sale for Authenticated User")
+    @GetMapping(value = "/get-parking-spots-sale-for-user")
+    public ResponseEntity<List<ParkingSpotSaleDTO>> getParkingSpotsByUser() {
+        return new ResponseEntity<>(parkingSpotSaleService.getParkingSpotsForAuthenticatedUser(), HttpStatus.OK);
+    }
 }

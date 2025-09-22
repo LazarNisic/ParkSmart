@@ -47,7 +47,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/actuator/**",
-                                "/ws/**"
+                                "/ws/**",
+                                //proveriti da li treba da stoji error ovde
+                                "/error"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

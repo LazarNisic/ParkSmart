@@ -1,6 +1,7 @@
 package com.lazarnisic.ParkSmart.service.impl;
 
 import com.lazarnisic.ParkSmart.dto.ParkingSpotSaleDTO;
+import com.lazarnisic.ParkSmart.dto.UserDTO;
 import com.lazarnisic.ParkSmart.exception.ParkingSpotNotFound;
 import com.lazarnisic.ParkSmart.mapper.ParkingSpotSaleMapper;
 import com.lazarnisic.ParkSmart.mapper.UserMapper;
@@ -60,5 +61,11 @@ public class ParkingSpotSaleServiceImpl implements ParkingSpotSaleService {
 
         parkingSpotsale.setFeatures(features);
         return parkingSpotSaleMapper.toDto(parkingSpotSaleRepository.save(parkingSpotsale));
+    }
+
+    @Override
+    public List<ParkingSpotSaleDTO> getParkingSpotsForAuthenticatedUser() {
+        UserDTO user = userService.getAuthenticatedUser();
+        return parkingSpotSaleMapper.toDto(parkingSpotSaleRepository.findByOwner(userMapper.toEntity(user)));
     }
 }

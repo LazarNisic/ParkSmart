@@ -22,4 +22,8 @@ public class ParkingSpotRentData {
     private Double pricePerMonth;
     @Positive(message = "Minimal booking duration must be greater than zero.")
     private int minBookingDuration;
+
+//    ParkingAccessData parkingAccessData;
+//    FeaturesData featuresData;
+
 }

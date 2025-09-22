@@ -12,4 +12,6 @@ public interface ParkingSpotSaleService {
     List<ParkingSpotSaleDTO> getSaleParkingSpotsForCity(String cityName);
 
     ParkingSpotSaleDTO createParkingFeatures(Long parkingSpotId, FeaturesData featuresData);
+
+    List<ParkingSpotSaleDTO> getParkingSpotsForAuthenticatedUser();
 }
