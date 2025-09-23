@@ -18,8 +18,8 @@ public class CustomPageRequest {
     @Schema(description = "Page size", defaultValue = "10", example = "10")
     private int size = 10;
 
-    @Schema(description = "Sorting fields", defaultValue = "name", example = "name")
-    private String[] sort = new String[]{"name"};
+    @Schema(description = "Sorting fields", example = "name")
+    private String[] sort;
 
     public Pageable toPageable() {
         return PageRequest.of(page, size, Sort.by(sort));

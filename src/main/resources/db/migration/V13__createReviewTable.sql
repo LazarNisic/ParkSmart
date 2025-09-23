@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS "review" (
+    id INTEGER PRIMARY KEY,
+    parking_spot_rent_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    comment VARCHAR(1000),
+    "timestamp" TIMESTAMP NOT NULL,
+    CONSTRAINT PARKING_SPOT_RENT_FK FOREIGN KEY (parking_spot_rent_id) REFERENCES "parking_spot_rent" (ID) ON DELETE CASCADE,
+    CONSTRAINT USER_FK FOREIGN KEY (user_id) REFERENCES "user" (ID) ON DELETE CASCADE
+);

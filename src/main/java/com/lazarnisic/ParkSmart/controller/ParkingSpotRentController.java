@@ -3,6 +3,7 @@ package com.lazarnisic.ParkSmart.controller;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotRentDTO;
 import com.lazarnisic.ParkSmart.dto.ParkingSpotImageDTO;
 import com.lazarnisic.ParkSmart.service.ParkingSpotRentService;
+import com.lazarnisic.ParkSmart.service.ReviewService;
 import com.lazarnisic.ParkSmart.service.data.FeaturesData;
 import com.lazarnisic.ParkSmart.service.data.ParkingAccessData;
 import com.lazarnisic.ParkSmart.service.data.ParkingSpotRentData;
@@ -32,6 +33,7 @@ import java.util.List;
 public class ParkingSpotRentController {
 
     private final ParkingSpotRentService parkingSpotRentService;
+    private final ReviewService reviewService;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping(value = "/available")
@@ -81,6 +83,12 @@ public class ParkingSpotRentController {
     @GetMapping(value = "/get-parking-spots-rent-for-user")
     public ResponseEntity<List<ParkingSpotRentDTO>> getParkingSpotsByUser() {
         return new ResponseEntity<>(parkingSpotRentService.getParkingSpotsForAuthenticatedUser(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
+    @GetMapping(value = "/rating/{id}")
+    public ResponseEntity<Double> getAverageRatingForParkingSpot(@PathVariable Long id) {
+        return new ResponseEntity<>(reviewService.getAverageRatingForParkingSpot(id), HttpStatus.OK);
     }
 
 }
