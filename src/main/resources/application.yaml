@@ -1,3 +1,4 @@
+#todo: move sensitive data to .env file
 server:
   port: 8082
 

@@ -18,6 +18,7 @@ import com.lazarnisic.ParkSmart.service.data.ParkingSpotSaleData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +36,7 @@ public class ParkingSpotSaleServiceImpl implements ParkingSpotSaleService {
     private final ParkingDetailsService parkingDetailsService;
 
     @Override
+    @Transactional
     public ParkingSpotSaleDTO create(ParkingSpotSaleData parkingSpotSaleData) {
         ParkingSpotSale parkingSpotSale = new ParkingSpotSale();
         parkingSpotSale.setOwner(userMapper.toEntity(userService.getAuthenticatedUser()));
@@ -47,12 +49,14 @@ public class ParkingSpotSaleServiceImpl implements ParkingSpotSaleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ParkingSpotSaleDTO> getSaleParkingSpotsForCity(String cityName) {
         List<ParkingSpotSale> parkingSpots = parkingSpotSaleRepository.findAllByCity_Name(cityName);
         return parkingSpotSaleMapper.toDto(parkingSpots);
     }
 
     @Override
+    @Transactional
     public ParkingSpotSaleDTO createParkingFeatures(Long parkingSpotId, FeaturesData featuresData) {
         ParkingSpotSale parkingSpotsale = parkingSpotSaleRepository.findById(parkingSpotId)
                 .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
@@ -64,6 +68,7 @@ public class ParkingSpotSaleServiceImpl implements ParkingSpotSaleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ParkingSpotSaleDTO> getParkingSpotsForAuthenticatedUser() {
         UserDTO user = userService.getAuthenticatedUser();
         return parkingSpotSaleMapper.toDto(parkingSpotSaleRepository.findByOwner(userMapper.toEntity(user)));

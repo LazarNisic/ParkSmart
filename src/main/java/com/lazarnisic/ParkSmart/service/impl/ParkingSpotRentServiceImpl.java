@@ -20,6 +20,7 @@ import com.lazarnisic.ParkSmart.service.data.ParkingSpotRentData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -52,6 +53,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     private final ParkingDetailsService parkingDetailsService;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ParkingSpotRentDTO> getAvailableParkingSpots(String cityName, LocalDateTime startTime, LocalDateTime endTime) {
 
         CityDTO city = cityService.findByName(cityName);
@@ -64,12 +66,14 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ParkingSpotRentDTO> getRentParkingSpotsForCity(String cityName) {
         List<ParkingSpotRent> availableSpotsForRent = parkingSpotRentRepository.findAllByCity_NameAndAvailableTrue(cityName);
         return parkingSpotRentMapper.toDto(availableSpotsForRent);
     }
 
     @Override
+    @Transactional
     public ParkingSpotRentDTO createParkingSpot(ParkingSpotRentData parkingSpotRentData) {
         ParkingSpotRent parkingSpotRent = new ParkingSpotRent();
         parkingSpotRent.setOwner(userMapper.toEntity(userService.getAuthenticatedUser()));
@@ -86,6 +90,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     }
 
     @Override
+    @Transactional
     public ParkingSpotImageDTO saveImage(Long parkingSpotId, MultipartFile file) throws IOException {
         ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(parkingSpotId)
                 .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
@@ -100,6 +105,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     }
 
     @Override
+    @Transactional
     public ParkingSpotRentDTO createParkingAccess(Long parkingSpotId, ParkingAccessData parkingAccessData) {
         ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(parkingSpotId)
                 .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
@@ -117,6 +123,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     }
 
     @Override
+    @Transactional
     public ParkingSpotRentDTO createParkingFeatures(Long parkingSpotId, FeaturesData featuresData) {
         ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(parkingSpotId)
                 .orElseThrow(() -> new ParkingSpotNotFound(parkingSpotId));
@@ -128,6 +135,7 @@ public class ParkingSpotRentServiceImpl implements ParkingSpotRentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ParkingSpotRentDTO> getParkingSpotsForAuthenticatedUser() {
         UserDTO user = userService.getAuthenticatedUser();
         return parkingSpotRentMapper.toDto(parkingSpotRentRepository.findByOwner(userMapper.toEntity(user)));

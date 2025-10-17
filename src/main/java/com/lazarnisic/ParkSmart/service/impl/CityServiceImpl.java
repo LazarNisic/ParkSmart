@@ -25,6 +25,7 @@ public class CityServiceImpl implements CityService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Page<CityDTO> findAll(Pageable pageable) {
         return cityRepository.findAll(pageable).map(cityMapper::toDto);
     }

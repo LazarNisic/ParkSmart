@@ -20,6 +20,7 @@ import com.lazarnisic.ParkSmart.service.data.ReservationData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final NotificationService notificationService;
 
     @Override
+    @Transactional
     public ReservationDTO createReservation(ReservationData reservationData) {
         if (reservationData.getStartTime().isAfter(reservationData.getEndTime())) {
             throw new IllegalArgumentException("End time must be after start time");
@@ -93,6 +95,7 @@ public class ReservationServiceImpl implements ReservationService {
         return createdReservation;
     }
 
+    @Transactional
     public ReservationDTO createMonthlyReservation(MonthlyReservationData monthlyReservationData) {
         if (monthlyReservationData.getStartMonth().isAfter(monthlyReservationData.getEndMonth())) {
             throw new IllegalArgumentException("End month must be after start month");
@@ -147,12 +150,14 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ReservationDTO> getReservationsOwnedByAuthenticatedUser() {
         UserDTO user = userService.getAuthenticatedUser();
         return reservationMapper.toDto(reservationRepository.findByParkingSpotRent_Owner(userMapper.toEntity(user)));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ReservationDTO> getReservationsCreatedByAuthenticatedUser() {
         UserDTO user = userService.getAuthenticatedUser();
         return reservationMapper.toDto(reservationRepository.findByUser(userMapper.toEntity(user)));

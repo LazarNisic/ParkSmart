@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,6 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
+    @Transactional
     public ReviewDTO create(ReviewData reviewData) {
 
         ParkingSpotRent parkingSpotRent = parkingSpotRentRepository.findById(reviewData.getParkingSpotId()).
@@ -54,18 +56,21 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ReviewDTO> findAllForParkingSpot(Long parkingSpotRentId, Pageable pageable) {
         Page<Review> reviewPage = reviewRepository.findByParkingSpotRent_Id(parkingSpotRentId, pageable);
         return reviewPage.map(reviewMapper::toDto);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ReviewDTO> findAllByOwner(Long userId, Pageable pageable) {
         Page<Review> reviewPage = reviewRepository.findByParkingSpotRent_Owner_Id(userId, pageable);
         return reviewPage.map(reviewMapper::toDto);
     }
 
     @Override
+    @Transactional
     public ReviewDTO update(Long reviewId, ReviewData reviewData) {
         Review review = reviewRepository.findById(reviewId).
                 orElseThrow(() -> new ReviewNotFound(reviewId));
@@ -82,6 +87,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public void delete(Long reviewId) {
         if (!reviewRepository.existsById(reviewId)) {
             throw new ReviewNotFound(reviewId);
@@ -91,6 +97,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Double getAverageRatingForParkingSpot(Long parkingSpotRentId) {
         Double average = reviewRepository.findAverageRatingByParkingSpotRentId(parkingSpotRentId);
         return average != null ?
