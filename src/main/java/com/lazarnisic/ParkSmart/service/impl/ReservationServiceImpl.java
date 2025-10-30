@@ -19,6 +19,9 @@ import com.lazarnisic.ParkSmart.service.data.MonthlyReservationData;
 import com.lazarnisic.ParkSmart.service.data.ReservationData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +44,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "reservationsByOwner", allEntries = true),
+            @CacheEvict(cacheNames = "reservationsByCreator", allEntries = true)
+    })
     public ReservationDTO createReservation(ReservationData reservationData) {
         if (reservationData.getStartTime().isAfter(reservationData.getEndTime())) {
             throw new IllegalArgumentException("End time must be after start time");
@@ -96,6 +103,10 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "reservationsByOwner", allEntries = true),
+            @CacheEvict(cacheNames = "reservationsByCreator", allEntries = true)
+    })
     public ReservationDTO createMonthlyReservation(MonthlyReservationData monthlyReservationData) {
         if (monthlyReservationData.getStartMonth().isAfter(monthlyReservationData.getEndMonth())) {
             throw new IllegalArgumentException("End month must be after start month");
@@ -151,6 +162,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(
+            cacheNames = "reservationsByOwner",
+            key = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()",
+            condition = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication() != null"
+    )
     public List<ReservationDTO> getReservationsOwnedByAuthenticatedUser() {
         UserDTO user = userService.getAuthenticatedUser();
         return reservationMapper.toDto(reservationRepository.findByParkingSpotRent_Owner(userMapper.toEntity(user)));
@@ -158,6 +174,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(
+            cacheNames = "reservationsByCreator",
+            key = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()",
+            condition = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication() != null"
+    )
     public List<ReservationDTO> getReservationsCreatedByAuthenticatedUser() {
         UserDTO user = userService.getAuthenticatedUser();
         return reservationMapper.toDto(reservationRepository.findByUser(userMapper.toEntity(user)));

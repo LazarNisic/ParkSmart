@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @Slf4j
+@EnableCaching
 public class ParkSmartApplication {
 
 	@Autowired

@@ -8,6 +8,9 @@ import com.lazarnisic.ParkSmart.repository.CityRepository;
 import com.lazarnisic.ParkSmart.service.CityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,6 +36,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(cacheNames = "cityById", key = "#id", sync = true)
     public CityDTO findById(Long id) {
         City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFound(id));
         return cityMapper.toDto(city);
@@ -40,6 +44,13 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(
+            cacheNames = "cityByName",
+            // Normalize: trim + lowercase
+            key = "T(org.springframework.util.StringUtils).trimWhitespace(#name).toLowerCase()",
+            condition = "#name != null && !#name.isBlank()",
+            sync = true
+    )
     public CityDTO findByName(String name) {
         City city = cityRepository.findByName(name).orElseThrow(() -> new CityNotFound(name));
         return cityMapper.toDto(city);
@@ -47,6 +58,9 @@ public class CityServiceImpl implements CityService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(cacheNames = "cityByName", key = "T(org.springframework.util.StringUtils).trimWhitespace(#name).toLowerCase()", beforeInvocation = false)
+    })
     public City findOrCreate(String name, String country) {
         return cityRepository.findByNameAndCountry(name, country)
                 .orElseGet(() -> {

@@ -43,6 +43,11 @@ spring:
     username: lazarenetel@gmail.com
     password: fktw rdor tsya mesj
     port: '587'
+  cache:
+    type: caffeine
+    cache-names: cityByName, cityById
+    caffeine:
+      spec: maximumSize=1000,expireAfterAccess=10m
 
 springdoc:
   swagger-ui:
