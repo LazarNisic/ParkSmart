@@ -84,6 +84,26 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public UserDTO register(UserData userData) {
+
+        final String email = userData.getUsername() == null
+                ? null
+                : userData.getUsername().trim().toLowerCase(Locale.ROOT);
+
+
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+
+
+        if (!email.matches("(?i)^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")) {
+            throw new IllegalArgumentException("Username must be a valid email address");
+        }
+
+
+        if (userRepository.existsByUsernameIgnoreCase(email)) {
+            throw new IllegalArgumentException("A user with this email already exists");
+        }
+
         final String encodedPassword = passwordEncoder.encode(userData.getPassword());
 
         User user = new User();

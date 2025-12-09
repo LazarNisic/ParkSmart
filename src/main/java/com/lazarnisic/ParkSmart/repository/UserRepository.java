@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @EntityGraph(attributePaths = {"userRoles"})
     Page<User> findUsersBySearchKeyContains(String searchTerm, Pageable pageable);
+
+    boolean existsByUsernameIgnoreCase(String username);
 }

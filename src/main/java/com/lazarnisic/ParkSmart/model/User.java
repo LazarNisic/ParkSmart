@@ -12,7 +12,7 @@ import java.util.List;
         indexes = {@Index(name = "idx_user_user_name", columnList = "user_name")})
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_name")
